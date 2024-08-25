@@ -23,21 +23,31 @@
       playGame('scissors');   
 
     ">Scissors</button>
-  <button onclick = "pickComputerMove
+  <button onclick="pickComputerMove
   
     score.wins = 0;
     score.losses = 0;
     score.ties = 0;
-  
+    localStorage.removeItem('score');
   ">Reset Score</button>
   <script>
 
-    const score = {
+    let score = JSON.parse(localStorage.getItem('score')) || {
+        wins: 0,
+        losses: 0,
+        ties: 0
+      };
 
-      wins: 0,
-      losses: 0,
-      ties: 0
-    };
+   // console.log(localStorage.getItem('message')); //helloyu konsolda göstermesi içindi (localStorage setItem)
+    /*
+    if (!score){ // (score === null yerine shortcut
+      score = {
+        wins: 0,
+        losses: 0,
+        ties: 0
+      };
+    }
+    */
 
     function playGame(playerMove) {
       const computerMove = pickComputerMove();
@@ -86,6 +96,8 @@
       } else if (result === 'Tie.') {
         score.ties += 1;
       }
+
+      localStorage.setItem('score', JSON.stringify(score));
 
       alert(`You picked ${playerMove}. Computer picked ${computerMove}. ${result}
 Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`);
